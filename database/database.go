@@ -4,19 +4,16 @@ import (
 	"database/sql"
 	"os"
 
-	"github.com/joho/godotenv"
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/joho/godotenv"
 )
 
 func InitDB() *sql.DB {
 	godotenv.Load()
 
-	dbHost := os.Getenv("DB_HOST")
-	dbUser := os.Getenv("DB_USER")
-	dbPass := os.Getenv("DB_PASS")
-	dbName := os.Getenv("DB_NAME")
+	dbQuery := os.Getenv("DB_CONN")
 
-	db, err := sql.Open("mysql", "%s:%s@tcp(%s)/%s", dbUser, dbPass, dbHost, dbName)
+	db, err := sql.Open("mysql", dbQuery)
 	if err != nil {
 		panic(err.Error())
 	}
